@@ -10,9 +10,9 @@ import argparse
 import shutil
 
 def selecionar_range():
-    public_key = '03633cbe3ec02b9401c5effa144c5b4d22f87940259634858fc7e59b1c09937852'
-    start = int('200000000000000000000000000000000', 16)
-    end = int('3ffffffffffffffffffffffffffffffff', 16)
+    Address = '1LHtnpd8nU5VHEMkG2TMYYNUjjLc992bps'
+    start = int('20000000', 16)
+    end = int('3fffffff', 16)
     partes = 5_000_0000
     parte = int(input(f'\nDica: Você pode usar "_" para melhor visualização. Por exemplo: 11_111_111.\nDigite uma parte a ser procurada entre 1 e {partes}, ou 0 para uma parte aleatória: '))
     if parte == 0:
@@ -27,14 +27,14 @@ def selecionar_range():
     if parte  == partes:
         fim_selecionado = end
 
-    with open('130.txt', 'w') as file:
+    with open('65.txt', 'w') as file:
         file.write(f"{hex(inicio_selecionado)[2:]}\n")
         file.write(f"{hex(fim_selecionado)[2:]}\n")
-        file.write(f"{public_key}")
+        file.write(f"{Address}")
 
 def iniciar_busca():
-    path = './kangaroo'
-    argumentos = '-gpu -g 80,128 -t 4 -o KFound.txt 130.txt'
+    path = './KeyHunt-Cuda-2'
+    argumentos = '-t 0 -g -i 0 -x 256,256 -o KFound.txt 65.txt'
     comando = f"{path} {argumentos}"
     print(comando)
     try: 
@@ -177,16 +177,16 @@ def converter_wif(private_key_hex: str) -> str:
 
 def busca_completa_com_save():
     work_restore()
-    path = './kangaroo'
+    path = './KeyHunt-Cuda-2'
     if os.path.exists('save.work'):
-        argumentos = '-gpu -g 80,128 -t 4 -ws -w save.work -wi 60 -o KFound.txt -i save.work'
+        argumentos = '-t 0 -g -i 0 -x 256,256 -s 20000000 -e 3fffffff -o KFound.txt -i save.work'
     else:
-        argumentos = f'-gpu -g 80,128 -t 4 -ws -w save.work -wi 60 -o KFound.txt ranges/130-{parte}.txt'
+        argumentos = f'-t 0 -g -i 0 -x 256,256 -s 20000000 -e 3fffffff -o KFound.txt -f 65.txt'
 
     comando = f"{path} {argumentos}"
     print(comando)
     try: 
-        print(f"Iniciando busca na parte {parte}/16")
+        print(f"Iniciando busca")
         subprocess.Popen(comando, shell=True)
     except Exception as e:
         print(f'Erro: {e}')
