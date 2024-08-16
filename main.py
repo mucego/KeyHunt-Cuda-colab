@@ -33,7 +33,7 @@ def selecionar_range():
         file.write(f"{Address}")
 
 def iniciar_busca():
-    path = './KeyHunt-Cuda-2'
+    path = './KeyHunt-Cuda-2.exe'
     argumentos = '-t 0 -g -i 0 -x 256,256 -o KFound.txt 65.txt'
     comando = f"{path} {argumentos}"
     print(comando)
@@ -177,7 +177,7 @@ def converter_wif(private_key_hex: str) -> str:
 
 def busca_completa_com_save():
     work_restore()
-    path = './KeyHunt-Cuda-2'
+    path = './KeyHunt-Cuda-2.exe'
     if os.path.exists('save.work'):
         argumentos = '-t 0 -g -i 0 -x 256,256 -s 20000000 -e 3fffffff -o KFound.txt -i save.work'
     else:
